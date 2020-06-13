@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -77,5 +78,16 @@ public class PersonController {
 		services.delete(id);
 		return ResponseEntity.ok().build();
 	}	
+
+	@ApiOperation(value = "Disable person by ID")
+	@PatchMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
+	public PersonVO disablePerson (
+			@PathVariable(value="id") Long id) {
+		PersonVO personVO = services.disablePerson(id);
+		personVO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+		return personVO;
+	}
+	
+	
 	
 }
