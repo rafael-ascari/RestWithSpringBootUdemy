@@ -55,8 +55,9 @@ public class BookController {
 		
 		Page<BookVO> books = services.findAll(pageable);
 		
-		books.stream()
-		.forEach(b -> b.add(
+		books
+			.stream()
+			.forEach(b -> b.add(
 				linkTo(methodOn(BookController.class).findById(b.getKey())).withSelfRel()));
 		
 		PagedResources<?> resources = assembler.toResource(books);
